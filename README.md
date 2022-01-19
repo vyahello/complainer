@@ -1,7 +1,7 @@
 ![Screenshot](logo.png)
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-[![Build Status](https://travis-ci.org/vyahello/complainer.svg?branch=master)](https://travis-ci.org/vyahello/complainer)
+[![Build Status](https://app.travis-ci.com/vyahello/complainer.svg?branch=main)](https://app.travis-ci.com/github/vyahello/complainer)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Checked with pylint](https://img.shields.io/badge/pylint-checked-blue)](https://www.pylint.org)
 [![Checked with flake8](https://img.shields.io/badge/flake8-checked-blue)](http://flake8.pycqa.org/)
@@ -9,7 +9,6 @@
 [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
-[![Downloads](https://pepy.tech/badge/pypans)](https://pepy.tech/project/complainer)
 [![CodeFactor](https://www.codefactor.io/repository/github/vyahello/complainer/badge)](https://www.codefactor.io/repository/github/vyahello/complainer)
 
 # Complainer
@@ -69,6 +68,12 @@ To be able to run code analysis, please execute command below:
 ```bash
 ./analyse-source-code.sh
 ```
+
+---
+**Note:** It is possible to set `analyse-source-code.sh` as a pre-commit hook. Please copy shell file to `.git/hooks/pre-commit` path.
+
+---
+
 ### Release notes
 
 Please check [changelog](CHANGELOG.md) file to get more details about actual versions and it's release notes.
