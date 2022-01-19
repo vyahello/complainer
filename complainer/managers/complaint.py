@@ -24,6 +24,6 @@ class ComplaintManager:
     async def create_complaint(complaint_data: Dict[str, str]) -> Record:
         """Fetch one user complaint."""
         id_ = await database.execute(complaint.insert().values(complaint_data))
-        return await database.fetch_one(
+        return await database.fetch_one(  # type: ignore
             complaint.select().where(complaint.c.id == id_)
-        )  # type: ignore
+        )
