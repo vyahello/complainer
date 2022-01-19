@@ -51,6 +51,25 @@ python -m complainer
 
 ## Development notes
 
+### DB migration
+
+`alembic` is used for database migrations (let's say you have added new column to your table).
+
+Init migrations:
+```bash
+alembic init migrations
+```
+
+Generate revision:
+```bash
+alembic revision --autogenerate -m 'Initial'
+```
+
+Set latest db revision:
+```bash
+alembic upgrade head
+```
+
 ### Testing
 
 Generally, `pytest` tool is used to organize testing procedure.
