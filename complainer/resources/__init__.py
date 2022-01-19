@@ -1,1 +1,1 @@
-"""Provide API endpoints resources."""
+"""Provide API endpoints resources for an app."""

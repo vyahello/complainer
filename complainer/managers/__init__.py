@@ -1,1 +1,1 @@
-"""Permission managers scheme API."""
+"""Permission managers scheme API (data validator)."""
