@@ -19,7 +19,7 @@ class UserRegisterIn(UserBase):
     iban: str
 
 
-class UserLogin(BaseModel):
+class UserLogin(UserBase):
     """Represents user login schema."""
 
     password: str
