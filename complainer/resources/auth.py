@@ -12,3 +12,9 @@ router = APIRouter(tags=['Auth'])
 async def register(user_data: Dict[str, str]) -> Dict[str, str]:
     """Represents app '/register' endpoint."""
     return {'token': await UserManager.register(user_data)}
+
+
+@router.post('/login')
+async def login(user_data: Dict[str, str]) -> Dict[str, str]:
+    """Represents app '/login' endpoint."""
+    return {'token': await UserManager.login(user_data)}
