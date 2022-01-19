@@ -8,9 +8,21 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from decouple import config as env_config
+
+from complainer.db import metadata
+
+from complainer import models  # flake8: noqa
+
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+
+section = config.config_ini_section
+config.set_section_option(section, 'DB_USER', env_config('DB_USER'))
+config.set_section_option(section, 'DB_PASS', env_config('DB_PASSWORD'))
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -20,7 +32,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

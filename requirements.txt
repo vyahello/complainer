@@ -1,6 +1,5 @@
 alembic==1.7.5
 asyncpg==0.25.0
-black==21.12b0
 databases==0.5.4
 psycopg2-binary==2.9.3
 python-decouple==3.5
