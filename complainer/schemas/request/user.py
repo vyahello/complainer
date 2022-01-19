@@ -1,4 +1,4 @@
-"""Users API scheme."""
+"""Users API scheme validation."""
 # pylint: disable=too-few-public-methods, no-name-in-module
 from pydantic import BaseModel
 
