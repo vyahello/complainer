@@ -37,19 +37,109 @@
 
 ### Quick start
 
-TBD
-
-### Source code
-
 ```bash
 git clone git@github.com:vyahello/complainer.git
+cd complainer
+python3 -m venv venv 
+. venv/bin/activate
 pip install -r requirements.txt
-python -m complainer
+python app.py
 ```
 
 **[⬆ back to top](#complainer)**
 
 ## Development notes
+
+### REST API 
+
+Please follow `/docs` endpoint to see all API endpoints.
+
+- `/register` to register user:
+  - Request sample:
+    ```bash
+    curl -X 'POST' \
+      'http://127.0.0.1:8000/register' \
+      -H 'accept: application/json' \
+      -H 'Content-Type: application/json' \
+      -d '{
+      "email": "aa@gmail.com",
+      "password": "string",
+      "phone": "string",
+      "first_name": "string",
+      "last_name": "string",
+      "iban": "string"
+    }'
+    ```
+  - Response body sample (201 code):
+    ```bash 
+    {"token": "XXXXX"}
+    ```
+
+- `/login` to login user:
+  - Request sample:
+    ```bash
+    curl -X 'POST' \
+      'http://127.0.0.1:8000/login' \
+      -H 'accept: application/json' \
+      -H 'Content-Type: application/json' \
+      -d '{
+      "email": "aa@gmail.com",
+     "password": "string"
+    }'
+    ```
+  - Response body sample (200 code):
+    ```bash 
+    {"token": "XXXXX"}
+    ```
+
+- `/complaints` (user should be authorized via bearer token):
+  - Get all complaints (`GET` request sample):
+    ```bash
+    curl -X 'GET' \
+      'http://127.0.0.1:8000/complaints' \
+      -H 'accept: application/json' \
+      -H 'Authorization: Bearer XXXX'
+    ```
+  - Response body sample (200 code):
+    ```bash
+    [
+      {
+        "title": "aa@gmail.com",
+        "description": "string",
+        "photo_url": "string",
+        "amount": 20,
+        "id": 1,
+        "created_at": "2022-01-20T11:53:34.532277",
+        "status": "Pending"
+      }
+    ]
+    ```
+  - Create complaint (`POST` request sample):
+    ```bash
+    curl -X 'POST' \
+      'http://127.0.0.1:8000/complaints' \
+      -H 'accept: application/json' \
+      -H 'Authorization: Bearer XXXX' \
+      -H 'Content-Type: application/json' \
+      -d '{
+       "title": "aa@gmail.com",
+       "description": "string",
+       "photo_url": "string",
+       "amount": 20
+    }'
+    ```
+  - Response body sample (200 code):
+    ```bash
+    {
+      "title": "aa@gmail.com",
+      "description": "string",
+      "photo_url": "string",
+      "amount": 20,
+      "id": 1,
+      "created_at": "2022-01-20T11:53:34.532277",
+      "status": "Pending"
+    }
+    ```
 
 ### DB migration
 
