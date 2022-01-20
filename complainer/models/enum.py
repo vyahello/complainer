@@ -13,6 +13,6 @@ class RoleType(enum.Enum):
 class State(enum.Enum):
     """Represents status state enumeration."""
 
-    APPROVER = 'Approved'
+    APPROVED = 'Approved'
     PENDING = 'Pending'
     REJECTED = 'Rejected'

@@ -1,9 +1,9 @@
 # pylint: disable-all
-"""Change consumer id column
+"""Used approved state
 
-Revision ID: fd125c5785b5
+Revision ID: 4d6c04a12401
 Revises:
-Create Date: 2022-01-20 11:52:03.885422
+Create Date: 2022-01-20 16:31:48.067813
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'fd125c5785b5'
+revision = '4d6c04a12401'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -58,7 +58,7 @@ def upgrade() -> None:
         ),
         sa.Column(
             'status',
-            sa.Enum('APPROVER', 'PENDING', 'REJECTED', name='state'),
+            sa.Enum('APPROVED', 'PENDING', 'REJECTED', name='state'),
             server_default='PENDING',
             nullable=False,
         ),

@@ -175,7 +175,7 @@ Please follow `/docs` endpoint to see all API endpoints.
     ]
     ```
 
-- `/users/{user-id}/make-admin` change role to admin (user should be authorized via bearer token): 
+- `/users/{user_id}/make-admin` change role to admin (user should be authorized via bearer token): 
   - Request sample:
     ```bash
     curl -X 'PUT' \
@@ -186,11 +186,31 @@ Please follow `/docs` endpoint to see all API endpoints.
   - Response sample (empty with 204 code)
 
     
-- `/users/{user-id}/make-approver` change role to approver (user should be authorized via bearer token): 
+- `/users/{user_id}/make-approver` change role to approver (user should be authorized via bearer token): 
   - Request sample:
     ```bash
     curl -X 'PUT' \
       'http://127.0.0.1:8000/users/2/make-approver' \
+      -H 'accept: */*' \
+      -H 'Authorization: Bearer XXXX'
+    ```
+  - Response sample (empty with 204 code)
+
+- `/complaints/{complaint_id}/approve` approve complaint (user should be authorized via bearer token): 
+  - Request sample:
+    ```bash
+    curl -X 'PUT' \
+      'http://127.0.0.1:8000/complaints/3/approve' \
+      -H 'accept: */*' \
+      -H 'Authorization: Bearer XXXX'
+    ```
+  - Response sample (empty with 204 code)
+
+- `/complaints/{complaint_id}/reject` reject complaint (user should be authorized via bearer token): 
+  - Request sample:
+    ```bash
+    curl -X 'PUT' \
+      'http://127.0.0.1:8000/complaints/3/reject' \
       -H 'accept: */*' \
       -H 'Authorization: Bearer XXXX'
     ```

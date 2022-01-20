@@ -38,3 +38,21 @@ class ComplaintManager:
         await database.execute(
             complaint.delete().where(complaint.c.id == complaint_id)
         )
+
+    @staticmethod
+    async def approve(complaint_id: int) -> None:
+        """Approve user complaint."""
+        await database.execute(
+            complaint.update()
+            .where(complaint.c.id == complaint_id)
+            .values(status=State.APPROVED)
+        )
+
+    @staticmethod
+    async def reject(complaint_id: int) -> None:
+        """Reject user complaint."""
+        await database.execute(
+            complaint.update()
+            .where(complaint.c.id == complaint_id)
+            .values(status=State.REJECTED)
+        )
