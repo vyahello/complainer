@@ -6,7 +6,7 @@ from fastapi import APIRouter
 from fastapi.params import Depends
 from starlette.requests import Request
 
-from complainer.managers.auth import is_complainer, oauth2_scheme
+from complainer.managers.auth import is_admin, is_complainer, oauth2_scheme
 from complainer.managers.complaint import ComplaintManager
 from complainer.schemas.request.complaint import ComplaintIn
 from complainer.schemas.response.complaint import ComplaintOut
@@ -34,3 +34,13 @@ async def create_complaint(request: Request, complaint: ComplaintIn) -> Record:
     """Return a single complaints."""
     user = request.state.user
     return await ComplaintManager.create_complaint(complaint.dict(), user)
+
+
+@router.delete(
+    '/complaint/{complaint_id}',
+    dependencies=[Depends(oauth2_scheme), Depends(is_admin)],
+    status_code=204,
+)
+async def delete_complaint(complaint_id: int) -> None:
+    """Delete a single complaint."""
+    await ComplaintManager.delete(complaint_id)

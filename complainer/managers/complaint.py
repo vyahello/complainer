@@ -31,3 +31,10 @@ class ComplaintManager:
         return await database.fetch_one(  # type: ignore
             complaint.select().where(complaint.c.id == id_)
         )
+
+    @staticmethod
+    async def delete(complaint_id: int) -> None:
+        """Delete complaint of a user. Only admin user can delete complaints."""
+        await database.execute(
+            complaint.delete().where(complaint.c.id == complaint_id)
+        )

@@ -141,6 +141,16 @@ Please follow `/docs` endpoint to see all API endpoints.
     }
     ```
 
+- `/delete` to delete complaint (only `admin` user role can delete complaints): 
+  - Request sample:
+    ```bash
+    curl -X 'DELETE' \
+      'http://127.0.0.1:8000/complaint/2' \
+      -H 'accept: */*' \
+      -H 'Authorization: Bearer XXXX'
+    ```
+  - Response sample (empty with 204 code)
+
 ### DB migration
 
 `alembic` is used for database migrations (let's say you have added new column to your table).
