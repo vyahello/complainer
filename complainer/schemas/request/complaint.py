@@ -6,4 +6,5 @@ from complainer.schemas.base import BaseComplaint
 class ComplaintIn(BaseComplaint):
     """Represents complaint input scheme."""
 
-    pass
+    encoded_photo: str
+    extension: str

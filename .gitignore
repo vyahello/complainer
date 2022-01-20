@@ -31,3 +31,6 @@ build/
 
 # env file
 .env
+
+# project files
+temp_files/*

@@ -11,5 +11,6 @@ class ComplaintOut(BaseComplaint):
     """Represents complaint output scheme."""
 
     id: int  # pylint: disable=invalid-name # noqa
+    photo_url: str
     created_at: datetime
     status: State
