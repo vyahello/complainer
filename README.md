@@ -197,6 +197,17 @@ Please follow `/docs` endpoint to see all API endpoints.
   - Response sample (empty with 204 code)
 
 
+### Custom scripts 
+
+[create_super_user](complainer/commands/create_super_user.py) script is used to create new admin user.
+
+Please make sure that `PYTHONPATH` is set tp current working directory:
+```bash
+export PYTHONPATH=./
+```
+
+#### Create user 
+
 ### DB migration
 
 `alembic` is used for database migrations (let's say you have added new column to your table).
