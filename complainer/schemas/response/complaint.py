@@ -10,6 +10,6 @@ from complainer.schemas.base import BaseComplaint
 class ComplaintOut(BaseComplaint):
     """Represents complaint output scheme."""
 
-    identity: int
+    id: int  # pylint: disable=invalid-name # noqa
     created_at: datetime
     status: State

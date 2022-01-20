@@ -1,9 +1,9 @@
 # pylint: disable-all
-"""Initial
+"""Change consumer id column
 
-Revision ID: b0fe25396f4a
+Revision ID: fd125c5785b5
 Revises:
-Create Date: 2022-01-19 13:10:15.388593
+Create Date: 2022-01-20 11:52:03.885422
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b0fe25396f4a'
+revision = 'fd125c5785b5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -62,9 +62,9 @@ def upgrade() -> None:
             server_default='PENDING',
             nullable=False,
         ),
-        sa.Column('Complainer_id', sa.Integer(), nullable=False),
+        sa.Column('complainer_id', sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(
-            ['Complainer_id'],
+            ['complainer_id'],
             ['users.id'],
         ),
         sa.PrimaryKeyConstraint('id'),

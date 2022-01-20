@@ -30,6 +30,7 @@ async def get_complaints(request: Request) -> List[Record]:
     dependencies=[Depends(oauth2_scheme), Depends(is_complainer)],
     response_model=ComplaintOut,
 )
-async def create_complaint(complaint: ComplaintIn) -> Record:
+async def create_complaint(request: Request, complaint: ComplaintIn) -> Record:
     """Return a single complaints."""
-    return await ComplaintManager.create_complaint(complaint.dict())
+    user = request.state.user
+    return await ComplaintManager.create_complaint(complaint.dict(), user)
