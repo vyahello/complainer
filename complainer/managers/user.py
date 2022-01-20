@@ -1,13 +1,14 @@
 """Provide API for user registration."""
 from typing import Dict, List
 
+from asyncpg import UniqueViolationError
 from databases.backends.postgres import Record
 from fastapi import HTTPException
 from passlib.context import CryptContext
-from asyncpg import UniqueViolationError
+
 from complainer.db import database
 from complainer.managers.auth import AuthManager
-from complainer.models import user
+from complainer.models import RoleType, user
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
@@ -64,4 +65,11 @@ class UserManager:
         """Return single user by email."""
         return await database.fetch_all(
             user.select().where(user.c.email == email)  # type: ignore
+        )
+
+    @staticmethod
+    async def change_role(role: RoleType, user_id: int) -> None:
+        """Change user role e.g to admin."""
+        await database.execute(
+            user.update().where(user.c.id == user_id).values(role=role)
         )

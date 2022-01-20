@@ -175,6 +175,28 @@ Please follow `/docs` endpoint to see all API endpoints.
     ]
     ```
 
+- `/users/{user-id}/make-admin` change role to admin (user should be authorized via bearer token): 
+  - Request sample:
+    ```bash
+    curl -X 'PUT' \
+      'http://127.0.0.1:8000/users/2/make-admin' \
+      -H 'accept: */*' \
+      -H 'Authorization: Bearer XXXX'
+    ```
+  - Response sample (empty with 204 code)
+
+    
+- `/users/{user-id}/make-approver` change role to approver (user should be authorized via bearer token): 
+  - Request sample:
+    ```bash
+    curl -X 'PUT' \
+      'http://127.0.0.1:8000/users/2/make-approver' \
+      -H 'accept: */*' \
+      -H 'Authorization: Bearer XXXX'
+    ```
+  - Response sample (empty with 204 code)
+
+
 ### DB migration
 
 `alembic` is used for database migrations (let's say you have added new column to your table).

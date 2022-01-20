@@ -1,8 +1,8 @@
 """Bounder for all API routers."""
 from fastapi import APIRouter
 
-from complainer.resources import complaint
 from complainer.resources import auth
+from complainer.resources import complaint
 from complainer.resources import user
 
 api_router = APIRouter()
