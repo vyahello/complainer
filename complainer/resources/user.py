@@ -6,11 +6,16 @@ from fastapi import APIRouter, Depends
 
 from complainer.managers.auth import is_admin, oauth2_scheme
 from complainer.managers.user import UserManager
+from complainer.schemas.response.user import UserOut
 
 router = APIRouter(tags=['Users API'])
 
 
-@router.get('/users', dependencies=[Depends(oauth2_scheme), Depends(is_admin)])
+@router.get(
+    '/users',
+    dependencies=[Depends(oauth2_scheme), Depends(is_admin)],
+    response_model=List[UserOut],
+)
 async def get_users(email: Optional[str] = None) -> Union[Record, List[Record]]:
     """Fetch all users."""
     if email:

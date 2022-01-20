@@ -1,4 +1,4 @@
-"""Provide complaint request output API schemes."""
+"""Provide complaint response output API schemes."""
 # pylint: disable=too-few-public-methods
 
 from datetime import datetime

@@ -3,6 +3,12 @@
 from pydantic import BaseModel
 
 
+class UserBase(BaseModel):
+    """Represents user model schema."""
+
+    email: str
+
+
 class BaseComplaint(BaseModel):
     """Represents base complaint scheme."""
 

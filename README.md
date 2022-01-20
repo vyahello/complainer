@@ -151,7 +151,7 @@ Please follow `/docs` endpoint to see all API endpoints.
     ```
   - Response sample (empty with 204 code)
 
-- `/users` to get all users/single user (user should be authorized via bearer token): 
+- `/users` to get all users (user should be authorized via bearer token): 
   - Request sample:
     ```bash
     curl -X 'GET' \

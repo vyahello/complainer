@@ -62,6 +62,6 @@ class UserManager:
     @staticmethod
     async def get_user_by_email(email: str) -> Record:
         """Return single user by email."""
-        return await database.fetch_one(
+        return await database.fetch_all(
             user.select().where(user.c.email == email)  # type: ignore
         )

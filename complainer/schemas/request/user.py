@@ -1,12 +1,6 @@
 """Users API scheme validation."""
 # pylint: disable=too-few-public-methods, no-name-in-module
-from pydantic import BaseModel
-
-
-class UserBase(BaseModel):
-    """Represents user model schema."""
-
-    email: str
+from complainer.schemas.base import UserBase
 
 
 class UserRegisterIn(UserBase):
