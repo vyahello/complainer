@@ -68,3 +68,6 @@ def is_admin(request: Request) -> None:
     """Check if user role is admin."""
     if not request.state.user['role'] == RoleType.ADMIN:
         raise HTTPException(403, 'Forbidden')
+
+
+oauth2_scheme = CustomHTTPBearer()
