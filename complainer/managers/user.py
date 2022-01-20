@@ -1,6 +1,7 @@
 """Provide API for user registration."""
-from typing import Dict
+from typing import Dict, List
 
+from databases.backends.postgres import Record
 from fastapi import HTTPException
 from passlib.context import CryptContext
 from asyncpg import UniqueViolationError
@@ -52,3 +53,15 @@ class UserManager:
         ):
             raise HTTPException(400, 'Wrong email or password')
         return AuthManager.encode_token(user_do)  # type: ignore
+
+    @staticmethod
+    async def get_all_users() -> List[Record]:
+        """Return all existed users."""
+        return await database.fetch_all(user.select())  # type: ignore
+
+    @staticmethod
+    async def get_user_by_email(email: str) -> Record:
+        """Return single user by email."""
+        return await database.fetch_one(
+            user.select().where(user.c.email == email)  # type: ignore
+        )

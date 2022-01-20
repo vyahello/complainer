@@ -151,6 +151,30 @@ Please follow `/docs` endpoint to see all API endpoints.
     ```
   - Response sample (empty with 204 code)
 
+- `/users` to get all users/single user (user should be authorized via bearer token): 
+  - Request sample:
+    ```bash
+    curl -X 'GET' \
+      'http://127.0.0.1:8000/users' \
+      -H 'accept: application/json' \
+      -H 'Authorization: Bearer XXXX'
+    ```
+  - Response sample (200 code):
+    ```bash
+    [
+      {
+        "id": 1,
+        "email": "aa@gmail.com",
+        "password": "$2b$12$DiSLHYj54aVrGfQ6BADrAu4/RvJRaiO.eyQsJy08WHuV2HynOKsRe",
+        "first_name": "string",
+        "last_name": "string",
+        "phone": "string",
+        "role": "complainer",
+        "iban": "string"
+      }
+    ]
+    ```
+
 ### DB migration
 
 `alembic` is used for database migrations (let's say you have added new column to your table).
