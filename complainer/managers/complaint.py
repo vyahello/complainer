@@ -16,6 +16,7 @@ from complainer.utils.helpers import decode_photo
 
 s3 = S3Service()
 ses = SESService()
+wise = WiseService()
 
 
 class ComplaintManager:
@@ -76,7 +77,6 @@ class ComplaintManager:
             )
         )
         if fund_transfer:
-            wise = WiseService()
             wise.fund_transfer(transaction_data['transfer_id'])  # type: ignore
         # ses integration, send email to recipient in case of approval
         ses.send_email(
@@ -86,8 +86,15 @@ class ComplaintManager:
         )
 
     @staticmethod
-    async def reject(complaint_id: int) -> None:
+    async def reject(complaint_id: int, fund_transfer: bool = False) -> None:
         """Reject user complaint."""
+        transaction_data = await database.fetch_one(
+            transaction.select().where(
+                transaction.c.complaint_id == complaint_id
+            )
+        )
+        if fund_transfer:
+            wise.cancel_funds(transaction_data['transfer_id'])  # type: ignore
         await ComplaintManager._apply(complaint_id, State.REJECTED)
 
     @staticmethod
@@ -95,7 +102,6 @@ class ComplaintManager:
         amount: int, full_name: str, iban: str, complaint_id: int
     ) -> None:
         """Store transaction into database."""
-        wise = WiseService()
         quote_id = wise.create_quote(amount)
         recipient_id = wise.create_recipient_account(full_name, iban)
         transfer_id = wise.create_transfer(recipient_id, quote_id)

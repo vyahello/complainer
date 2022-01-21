@@ -98,3 +98,14 @@ class WiseService:  # pylint: disable=too-few-public-methods
         raise HTTPException(
             500, 'Payment provider is not available at the moment'
         )
+
+    def cancel_funds(self, transfer_id: int) -> Dict[str, Any]:
+        """Cancel fund transfer in wise payment service."""
+        url = f'{self.main_url}/v1/transfer/{transfer_id}/cancel'
+        resp = requests.put(url, headers=self.headers)
+
+        if resp.status_code == 200:
+            return resp.json()
+        raise HTTPException(
+            500, 'Payment provider is not available at the moment'
+        )
