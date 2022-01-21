@@ -1,5 +1,6 @@
 """Wise payment service API."""
 import json
+import uuid
 from http.client import HTTPException
 from typing import Any, Dict, List
 
@@ -63,6 +64,40 @@ class WiseService:  # pylint: disable=too-few-public-methods
         }
         resp = requests.post(url, headers=self.headers, data=json.dumps(data))
         if resp.status_code == 200:
+            return resp.json()
+        raise HTTPException(
+            500, 'Payment provider is not available at the moment'
+        )
+
+    def create_transfer(
+        self, target_account_id: int, quote_id: int
+    ) -> Dict[str, Any]:
+        """Create transfer in wise payment service."""
+        url = f'{self.main_url}/v1/transfers'
+        data = {
+            'targetAccount': target_account_id,
+            'quoteUuid': quote_id,
+            'customerTransactionId': str(uuid.uuid4()),
+        }
+        resp = requests.post(url, headers=self.headers, data=json.dumps(data))
+        if resp.status_code == 200:
+            return resp.json()
+        raise HTTPException(
+            500, 'Payment provider is not available at the moment'
+        )
+
+    def fund_transfer(
+        self,
+        transfer_id: int,
+    ) -> Dict[str, Any]:
+        """Fund transfer in wise payment service."""
+        url = (
+            f'{self.main_url}/v3/profiles/'
+            f'{self.profile_id}/transfers/{transfer_id}/payment'
+        )
+        data = {'type': 'BALANCE'}
+        resp = requests.post(url, headers=self.headers, data=json.dumps(data))
+        if resp.status_code == 201:
             return resp.json()
         raise HTTPException(
             500, 'Payment provider is not available at the moment'
