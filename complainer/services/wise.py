@@ -47,3 +47,23 @@ class WiseService:  # pylint: disable=too-few-public-methods
         raise HTTPException(
             500, 'Payment provider is not available at the moment'
         )
+
+    def create_recipient_account(
+        self, full_name: str, iban: str
+    ) -> Dict[str, Any]:
+        """Create recipient account in wise payment service."""
+        url = f'{self.main_url}/v1/accounts'
+        data = {
+            'currency': 'EUR',
+            'type': 'iban',
+            'profile': self.profile_id,
+            'accountHolderName': full_name,
+            'legalType': 'PRIVATE',
+            'details': {'iban': iban},
+        }
+        resp = requests.post(url, headers=self.headers, data=json.dumps(data))
+        if resp.status_code == 200:
+            return resp.json()
+        raise HTTPException(
+            500, 'Payment provider is not available at the moment'
+        )
