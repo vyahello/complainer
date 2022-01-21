@@ -10,9 +10,11 @@ from complainer.constants import TEMP_FILE_FOLDER
 from complainer.db import database
 from complainer.models import RoleType, State, complaint
 from complainer.services.s3 import S3Service
+from complainer.services.ses import SESService
 from complainer.utils.helpers import decode_photo
 
 s3 = S3Service()
+ses = SESService()
 
 
 class ComplaintManager:
@@ -58,6 +60,12 @@ class ComplaintManager:
     async def approve(complaint_id: int) -> None:
         """Approve user complaint."""
         await ComplaintManager._apply(complaint_id, State.APPROVED)
+        # ses integration, send email to recipient in case of approval
+        ses.send_email(
+            subject='Complaint approved',
+            to_addresses=['vjagello93@gmail.com'],
+            text_data='Congrats! Your claim is approved!',
+        )
 
     @staticmethod
     async def reject(complaint_id: int) -> None:
@@ -70,5 +78,5 @@ class ComplaintManager:
         await database.execute(
             complaint.update()
             .where(complaint.c.id == complaint_id)
-            .values(status)
+            .values(status=status)
         )

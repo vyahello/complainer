@@ -11,10 +11,10 @@ class S3Service:
     def __init__(
         self,
     ) -> None:
-        self.key = config('AWS_ACCESS_KEY')
-        self.secret = config('AWS_SECRET_KEY')
         self.s3 = boto3.client(  # pylint: disable=invalid-name
-            's3', aws_access_key_id=self.key, aws_secret_access_key=self.secret
+            's3',
+            aws_access_key_id=config('AWS_ACCESS_KEY'),
+            aws_secret_access_key=config('AWS_SECRET_KEY'),
         )
         self.bucket = config('AWS_BUCKET_NAME')
         self.region = config('AWS_REGION')

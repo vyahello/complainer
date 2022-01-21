@@ -1,7 +1,7 @@
 ![Screenshot](logo.png)
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-[![Build Status](https://app.travis-ci.com/vyahello/complainer.svg?branch=main)](https://app.travis-ci.com/github/vyahello/complainer)
+[![Build Status](https://app.travis-ci.com/vyahello/complainer.svg?branch=master)](https://app.travis-ci.com/github/vyahello/complainer)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Checked with pylint](https://img.shields.io/badge/pylint-checked-blue)](https://www.pylint.org)
 [![Checked with flake8](https://img.shields.io/badge/flake8-checked-blue)](http://flake8.pycqa.org/)
@@ -216,7 +216,9 @@ Please follow `/docs` endpoint to see all API endpoints.
     ```
   - Response sample (empty with 204 code)
 
-### S3 integration
+### Third party
+
+#### S3 integration
 
 [AWS S3](https://s3.console.aws.amazon.com/s3) is used to store user complaint photos and get access from the repo.
 In order to use S3, please fill in the following env vars in your .env file:
@@ -225,6 +227,16 @@ AWS_ACCESS_KEY=XXXX
 AWS_SECRET_KEY=XXXX
 AWS_BUCKET_NAME=XXXX
 AWS_REGION=XXXX
+```
+
+#### SES integration
+
+[AWS SES](https://s3.console.aws.amazon.com/s3) is used to send email to the recipient in base of complaint approval.
+In order to use SES, please fill in the following env vars in your .env file:
+```text
+AWS_ACCESS_KEY=XXXX
+AWS_SECRET_KEY=XXXX
+SES_REGION=XXXX
 ```
 
 ### Custom scripts 
