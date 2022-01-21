@@ -1,11 +1,18 @@
 """Provide API for complaint manager."""
+import os
+import uuid
 from typing import Dict, List
 
 from databases.backends.postgres import Record
 from sqlalchemy.sql import Select
 
+from complainer.constants import TEMP_FILE_FOLDER
 from complainer.db import database
 from complainer.models import RoleType, State, complaint
+from complainer.services.s3 import S3Service
+from complainer.utils.helpers import decode_photo
+
+s3 = S3Service()
 
 
 class ComplaintManager:
@@ -27,6 +34,14 @@ class ComplaintManager:
     ) -> Record:
         """Fetch one user complaint."""
         complaint_data['complainer_id'] = user['id']
+        # s3 integration
+        encoded_photo = complaint_data.pop('encoded_photo')
+        extension = complaint_data.pop('extension')
+        name = f'{uuid.uuid4()}.{extension}'
+        path = os.path.join(TEMP_FILE_FOLDER, name)
+        decode_photo(path, encoded_photo)
+        complaint_data['photo_url'] = s3.upload(path, name, extension)
+        os.remove(path)
         id_ = await database.execute(complaint.insert().values(complaint_data))
         return await database.fetch_one(  # type: ignore
             complaint.select().where(complaint.c.id == id_)
@@ -42,17 +57,18 @@ class ComplaintManager:
     @staticmethod
     async def approve(complaint_id: int) -> None:
         """Approve user complaint."""
-        await database.execute(
-            complaint.update()
-            .where(complaint.c.id == complaint_id)
-            .values(status=State.APPROVED)
-        )
+        await ComplaintManager._apply(complaint_id, State.APPROVED)
 
     @staticmethod
     async def reject(complaint_id: int) -> None:
         """Reject user complaint."""
+        await ComplaintManager._apply(complaint_id, State.REJECTED)
+
+    @staticmethod
+    async def _apply(complaint_id: int, status: State) -> None:
+        """Apply action to user complaint."""
         await database.execute(
             complaint.update()
             .where(complaint.c.id == complaint_id)
-            .values(status=State.REJECTED)
+            .values(status)
         )

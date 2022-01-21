@@ -216,17 +216,25 @@ Please follow `/docs` endpoint to see all API endpoints.
     ```
   - Response sample (empty with 204 code)
 
+### S3 integration
+
+[AWS S3](https://s3.console.aws.amazon.com/s3) is used to store user complaint photos and get access from the repo.
+In order to use S3, please fill in the following env vars in your .env file:
+```text
+AWS_ACCESS_KEY=XXXX
+AWS_SECRET_KEY=XXXX
+AWS_BUCKET_NAME=XXXX
+AWS_REGION=XXXX
+```
 
 ### Custom scripts 
 
 [create_super_user](complainer/commands/create_super_user.py) script is used to create new admin user.
 
-Please make sure that `PYTHONPATH` is set tp current working directory:
+Please make sure that `PYTHONPATH` is set to current working directory:
 ```bash
 export PYTHONPATH=./
 ```
-
-#### Create user 
 
 ### DB migration
 
