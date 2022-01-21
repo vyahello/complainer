@@ -1,16 +1,17 @@
 """Provide API for complaint manager."""
 import os
 import uuid
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from databases.backends.postgres import Record
 from sqlalchemy.sql import Select
 
 from complainer.constants import TEMP_FILE_FOLDER
 from complainer.db import database
-from complainer.models import RoleType, State, complaint
+from complainer.models import RoleType, State, complaint, transaction
 from complainer.services.s3 import S3Service
 from complainer.services.ses import SESService
+from complainer.services.wise import WiseService
 from complainer.utils.helpers import decode_photo
 
 s3 = S3Service()
@@ -32,7 +33,9 @@ class ComplaintManager:
 
     @staticmethod
     async def create_complaint(
-        complaint_data: Dict[str, str], user: Dict[str, str]
+        complaint_data: Dict[str, Any],
+        user: Dict[str, str],
+        issue_transaction: bool = False,
     ) -> Record:
         """Fetch one user complaint."""
         complaint_data['complainer_id'] = user['id']
@@ -45,6 +48,13 @@ class ComplaintManager:
         complaint_data['photo_url'] = s3.upload(path, name, extension)
         os.remove(path)
         id_ = await database.execute(complaint.insert().values(complaint_data))
+        if issue_transaction:
+            await ComplaintManager.issue_transaction(
+                complaint_data['amount'],
+                f'{user["first_name"]} {user["last_name"]}',
+                user['iban'],
+                id_,
+            )
         return await database.fetch_one(  # type: ignore
             complaint.select().where(complaint.c.id == id_)
         )
@@ -71,6 +81,24 @@ class ComplaintManager:
     async def reject(complaint_id: int) -> None:
         """Reject user complaint."""
         await ComplaintManager._apply(complaint_id, State.REJECTED)
+
+    @staticmethod
+    async def issue_transaction(
+        amount: int, full_name: str, iban: str, complaint_id: int
+    ) -> None:
+        """Store transaction into database."""
+        wise = WiseService()
+        quote_id = wise.create_quote(amount)
+        recipient_id = wise.create_recipient_account(full_name, iban)
+        transfer_id = wise.create_transfer(recipient_id, quote_id)
+        data = {
+            'quote_id': quote_id,
+            'transfer_id': transfer_id,
+            'target_account_id': str(recipient_id),
+            'amount': amount,
+            'complaint_id': complaint_id,
+        }
+        await database.execute(transaction.insert().values(**data))
 
     @staticmethod
     async def _apply(complaint_id: int, status: State) -> None:

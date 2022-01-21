@@ -33,7 +33,7 @@ class WiseService:  # pylint: disable=too-few-public-methods
             500, 'Payment provider is not available at the moment'
         )
 
-    def create_quote(self, amount: int) -> Dict[str, Any]:
+    def create_quote(self, amount: int) -> str:
         """Create quote in wise payment service."""
         url = f'{self.main_url}/v2/quotes'
         data = {
@@ -49,9 +49,7 @@ class WiseService:  # pylint: disable=too-few-public-methods
             500, 'Payment provider is not available at the moment'
         )
 
-    def create_recipient_account(
-        self, full_name: str, iban: str
-    ) -> Dict[str, Any]:
+    def create_recipient_account(self, full_name: str, iban: str) -> str:
         """Create recipient account in wise payment service."""
         url = f'{self.main_url}/v1/accounts'
         data = {
@@ -69,9 +67,7 @@ class WiseService:  # pylint: disable=too-few-public-methods
             500, 'Payment provider is not available at the moment'
         )
 
-    def create_transfer(
-        self, target_account_id: int, quote_id: int
-    ) -> Dict[str, Any]:
+    def create_transfer(self, target_account_id: str, quote_id: str) -> str:
         """Create transfer in wise payment service."""
         url = f'{self.main_url}/v1/transfers'
         data = {
