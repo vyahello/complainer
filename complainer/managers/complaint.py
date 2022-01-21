@@ -67,9 +67,17 @@ class ComplaintManager:
         )
 
     @staticmethod
-    async def approve(complaint_id: int) -> None:
+    async def approve(complaint_id: int, fund_transfer: bool = False) -> None:
         """Approve user complaint."""
         await ComplaintManager._apply(complaint_id, State.APPROVED)
+        transaction_data = await database.fetch_one(
+            transaction.select().where(
+                transaction.c.complaint_id == complaint_id
+            )
+        )
+        if fund_transfer:
+            wise = WiseService()
+            wise.fund_transfer(transaction_data['transfer_id'])  # type: ignore
         # ses integration, send email to recipient in case of approval
         ses.send_email(
             subject='Complaint approved',
