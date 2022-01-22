@@ -4,6 +4,7 @@ import uuid
 from typing import Any, Dict, List
 
 from databases.backends.postgres import Record
+from databases.core import Transaction
 from sqlalchemy.sql import Select
 
 from complainer.constants import TEMP_FILE_FOLDER
@@ -19,7 +20,7 @@ ses = SESService()
 wise = WiseService()
 
 
-class ComplaintManager:
+class ComplaintManager:  # pylint: disable=protected-access
     """Represents complaint manager."""
 
     @staticmethod
@@ -48,9 +49,13 @@ class ComplaintManager:
         decode_photo(path, encoded_photo)
         complaint_data['photo_url'] = s3.upload(path, name, extension)
         os.remove(path)
-        id_ = await database.execute(complaint.insert().values(complaint_data))
+        async with database.transaction() as tconn:  # type: Transaction
+            id_ = await tconn._connection.execute(
+                complaint.insert().values(complaint_data)
+            )
         if issue_transaction:
             await ComplaintManager.issue_transaction(
+                tconn,
                 complaint_data['amount'],
                 f'{user["first_name"]} {user["last_name"]}',
                 user['iban'],
@@ -99,7 +104,11 @@ class ComplaintManager:
 
     @staticmethod
     async def issue_transaction(
-        amount: int, full_name: str, iban: str, complaint_id: int
+        tconn: Transaction,
+        amount: int,
+        full_name: str,
+        iban: str,
+        complaint_id: int,
     ) -> None:
         """Store transaction into database."""
         quote_id = wise.create_quote(amount)
@@ -112,7 +121,7 @@ class ComplaintManager:
             'amount': amount,
             'complaint_id': complaint_id,
         }
-        await database.execute(transaction.insert().values(**data))
+        await tconn._connection.execute(transaction.insert().values(**data))
 
     @staticmethod
     async def _apply(complaint_id: int, status: State) -> None:

@@ -2,7 +2,7 @@
 import json
 import uuid
 from http.client import HTTPException
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 import requests
 from decouple import config
@@ -19,7 +19,7 @@ class WiseService:  # pylint: disable=too-few-public-methods
         }
         self.profile_id = self._get_profile_id()
 
-    def _get_profile_id(self) -> List[str]:
+    def _get_profile_id(self) -> str:
         """Return wise user profile id."""
         url = f'{self.main_url}/v1/profiles'
         resp = requests.get(url, headers=self.headers)
@@ -29,9 +29,7 @@ class WiseService:  # pylint: disable=too-few-public-methods
                 for element in resp.json()
                 if element['type'] == 'personal'
             ][0]
-        raise HTTPException(
-            500, 'Payment provider is not available at the moment'
-        )
+        return ''
 
     def create_quote(self, amount: int) -> str:
         """Create quote in wise payment service."""
