@@ -36,11 +36,12 @@
 
 ## Usage
 
-### Quick start
+### Source code
 
-### Frontend
+#### Frontend
 
 ```bash
+git clone git@github.com:vyahello/complainer.git
 cd fe
 brew install node
 npm install -g @angular/cli
@@ -49,7 +50,7 @@ npm install
 
 Please open [http://localhost:4200](http://localhost:4200) endpoint.
 
-### Backend 
+#### Backend 
 
 ```bash
 git clone git@github.com:vyahello/complainer.git
@@ -63,6 +64,13 @@ python app.py
 Please open [http://localhost:8000/docs](http://localhost:8000/docs) endpoint.
 
 **[⬆ back to top](#complainer)**
+
+#### Docker run 
+
+```bash 
+cd docker 
+docker compose up
+```
 
 ## Development notes
 
@@ -87,7 +95,7 @@ Please follow `/docs` endpoint to see all API endpoints.
     }'
     ```
   - Response body sample (201 code):
-    ```bash 
+    ```json 
     {"token": "XXXXX"}
     ```
 
@@ -104,7 +112,7 @@ Please follow `/docs` endpoint to see all API endpoints.
     }'
     ```
   - Response body sample (200 code):
-    ```bash 
+    ```json 
     {"token": "XXXXX"}
     ```
 
@@ -117,7 +125,7 @@ Please follow `/docs` endpoint to see all API endpoints.
       -H 'Authorization: Bearer XXXX'
     ```
   - Response body sample (200 code):
-    ```bash
+    ```json
     [
       {
         "title": "aa@gmail.com",
@@ -145,7 +153,7 @@ Please follow `/docs` endpoint to see all API endpoints.
     }'
     ```
   - Response body sample (200 code):
-    ```bash
+    ```json
     {
       "title": "aa@gmail.com",
       "description": "string",
@@ -176,7 +184,7 @@ Please follow `/docs` endpoint to see all API endpoints.
       -H 'Authorization: Bearer XXXX'
     ```
   - Response sample (200 code):
-    ```bash
+    ```json
     [
       {
         "id": 1,
