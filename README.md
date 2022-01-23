@@ -18,6 +18,7 @@
 ## Tools
 
 ### Production
+- angular
 - python 3.7, 3.8, 3.9
 - [fastapi](https://fastapi.tiangolo.com/)
 - [sqlalchemy](https://www.sqlalchemy.org) (postgreSQL)
@@ -37,6 +38,19 @@
 
 ### Quick start
 
+### Frontend
+
+```bash
+cd fe
+brew install node
+npm install -g @angular/cli
+npm install
+```
+
+Please open [http://localhost:4200](http://localhost:4200) endpoint.
+
+### Backend 
+
 ```bash
 git clone git@github.com:vyahello/complainer.git
 cd complainer
@@ -45,6 +59,8 @@ python3 -m venv venv
 pip install -r requirements.txt
 python app.py
 ```
+
+Please open [http://localhost:8000/docs](http://localhost:8000/docs) endpoint.
 
 **[⬆ back to top](#complainer)**
 

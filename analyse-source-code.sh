@@ -37,7 +37,7 @@ check-flake() {
 :<<DOC
     Runs "flake8" code analysers
 DOC
-    pretty-printer-box "flake" && ( flake8 ./ )
+    pretty-printer-box "flake" && ( flake8 ${PACKAGE} )
 }
 
 

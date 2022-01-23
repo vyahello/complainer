@@ -30,7 +30,7 @@ class ComplaintManager:  # pylint: disable=protected-access
         if user['role'] == RoleType.COMPLAINER:
             query = query.where(complaint.c.id == user['id'])
         elif user['role'] == RoleType.APPROVER:
-            query = query.where(complaint.c.state == State.PENDING)
+            query = query.where(complaint.c.status == State.PENDING)
         return await database.fetch_all(query)  # type: ignore
 
     @staticmethod

@@ -1,5 +1,5 @@
 """Provide API for user registration."""
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from asyncpg import UniqueViolationError
 from databases.backends.postgres import Record
@@ -39,7 +39,7 @@ class UserManager:
         return AuthManager.encode_token(user_do)  # type: ignore
 
     @staticmethod
-    async def login(user_data: Dict[str, str]) -> str:
+    async def login(user_data: Dict[str, str]) -> Tuple[str, str]:
         """
         Check if user email exists in the database.
         Return encoded hash.
@@ -53,7 +53,10 @@ class UserManager:
             user_data['password'], user_do['password']  # type: ignore
         ):
             raise HTTPException(400, 'Wrong email or password')
-        return AuthManager.encode_token(user_do)  # type: ignore
+        return (
+            AuthManager.encode_token(user_do),  # type: ignore
+            user_do['role'],  # type: ignore
+        )
 
     @staticmethod
     async def get_all_users() -> List[Record]:
