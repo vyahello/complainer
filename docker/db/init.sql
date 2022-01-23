@@ -1,0 +1,2 @@
+CREATE DATABASE complaints;
+GRANT ALL PRIVILEGES ON DATABASE complaints TO postgres;
