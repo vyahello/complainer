@@ -36,6 +36,8 @@
 
 ## Usage
 
+![Usage](demo.gif)
+
 ### Source code
 
 #### Frontend
