@@ -3,11 +3,17 @@ version: "3.7"
 services:
   db:
     image: vyahello/complainer-db:0.1.0
+    networks:
+      quest_network:
     ports:
-      - "5434:5432"
+      - "5432:5432"
 
   back:
     image: vyahello/complainer-back:0.1.0
+    networks:
+      quest_network:
+    expose:
+      - 8000
     ports:
       - "8000:8000"
     depends_on:
@@ -15,7 +21,15 @@ services:
 
   front:
     image: vyahello/complainer-front:0.1.0
+    networks:
+      quest_network:
+    expose:
+      - 4200
     ports:
       - "4200:4200"
     depends_on:
       - back
+
+networks:
+  quest_network:
+    driver: bridge

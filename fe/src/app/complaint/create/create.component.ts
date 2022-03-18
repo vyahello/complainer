@@ -21,8 +21,8 @@ export class CreateComponent implements OnInit {
       title: ['', Validators.required],
       description: ['', Validators.required],
       amount: ['', Validators.required],
-      photo: [''],
-      photo_extension: [''] 
+      encoded_photo: [''],
+      extension: [''] 
     })
   }
 
@@ -33,11 +33,11 @@ export class CreateComponent implements OnInit {
     console.log(this.complainForm);
     this.spinner.show();
 
-    if (this.complainForm.get("photo").value.startsWith("data:")) {
+    if (this.complainForm.get("encoded_photo").value.startsWith("data:")) {
       console.log("aha ")
-      var truncated_base64 = this.complainForm.get("photo").value.split(',')[1];
+      var truncated_base64 = this.complainForm.get("encoded_photo").value.split(',')[1];
       this.complainForm.patchValue({
-        photo: truncated_base64
+        encoded_photo: truncated_base64
       });
     }
     this.complaintService.create(this.complainForm.value).subscribe(data => {
@@ -56,13 +56,13 @@ export class CreateComponent implements OnInit {
       const [file] = event.target.files;
       const extension = event.target.files[0].name.split('.').at(-1)
       this.complainForm.patchValue({
-        photo_extension: extension
+        extension: extension
       });
       reader.readAsDataURL(file);
     
       reader.onload = () => {
         this.complainForm.patchValue({
-          photo: reader.result
+          encoded_photo: reader.result
         });
         
         // need to run CD since file load runs outside of zone

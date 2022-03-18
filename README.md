@@ -38,19 +38,14 @@
 
 ![Usage](demo.gif)
 
-### Source code
+### Docker run 
 
-#### Frontend
-
-```bash
-git clone git@github.com:vyahello/complainer.git
-cd fe
-brew install node
-npm install -g @angular/cli
-npm install
+```bash 
+cd docker 
+docker compose up
 ```
 
-Please open [http://localhost:4200](http://localhost:4200) endpoint.
+### Source code
 
 #### Backend 
 
@@ -65,14 +60,20 @@ python app.py
 
 Please open [http://localhost:8000/docs](http://localhost:8000/docs) endpoint.
 
-**[⬆ back to top](#complainer)**
+#### Frontend
 
-#### Docker run 
-
-```bash 
-cd docker 
-docker compose up
+```bash
+git clone git@github.com:vyahello/complainer.git
+cd fe
+brew install node
+npm install -g @angular/cli
+npm install
+ng serve --host 0.0.0.0
 ```
+
+Please open [http://localhost:4200](http://localhost:4200) endpoint.
+
+**[⬆ back to top](#complainer)**
 
 ## Development notes
 
@@ -292,6 +293,11 @@ Set latest db revision:
 ```bash
 alembic upgrade head
 ```
+
+### Docker 
+
+Please use the following [example notes](https://github.com/vyahello/pep8-checker#development-notes) to proceed with docker image provisioning.
+
 
 ### Testing
 
